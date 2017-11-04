@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Char from './Char';
 import findIndices from './find-indices';
 
 class App extends Component {
@@ -10,24 +11,34 @@ class App extends Component {
   render() {
     let {original, sub} = this.state;
 
+    let indices = findIndices(original, sub);
+
+    let combined = original.split('').map((char, i) => (
+      <Char key={i} cover={!indices.has(i)}>{char}</Char>
+    ));
+
+
     return (
       <div className="App">
-        Original:
         <textarea
+          placeholder="original meme text"
+          id="original"
           value={original}
           onChange={e => this.setState({original: e.target.value})}
         />
 
         <br />
 
-        Desired sub-text:
         <textarea
+          placeholder="sub-text to find"
+          id="sub"
           value={sub}
           onChange={e => this.setState({sub: e.target.value})}
         />
 
-
-        {getLetters(original)}
+        <div className="combined">
+          {combined}
+        </div>
 
       </div>
     );
@@ -35,7 +46,3 @@ class App extends Component {
 }
 
 export default App;
-
-function getLetters(text) {
-  return text.replace(/[\W_]/g, '').split();
-}

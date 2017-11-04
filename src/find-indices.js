@@ -3,15 +3,17 @@ function lettersOnly(text) {
 }
 
 export default function findIndices(orig, sub) {
-  letters = lettersOnly(sub)
+
+  orig = orig.toUpperCase();
+  sub = lettersOnly(sub).toUpperCase();
 
   let i = 0, indices = new Set();
 
   outer:
-  for(let letter of letters) {
+  for(let letter of sub) {
     while(letter !== orig[i]) {
       i++;
-      if(i == orig.length) break outer;
+      if(i >= orig.length) break outer;
     }
     indices.add(i);
     i++;
