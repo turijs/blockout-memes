@@ -1,23 +1,30 @@
-function lettersOnly(text) {
-  return text.replace(/[\W_]/g, '');
-}
-
 export default function findIndices(orig, sub) {
-
   orig = orig.toUpperCase();
-  sub = lettersOnly(sub).toUpperCase();
+  sub = sub.toUpperCase();
 
-  let i = 0, indices = new Set();
+  let i = 0
+    , foundAt = new Set()
+    , numSkipped = 0;
 
   outer:
-  for(let letter of sub) {
-    while(letter !== orig[i]) {
+  for(let char of sub) {
+    if( shouldSkip(char) ) {
+      numSkipped++;
+      continue;
+    }
+
+    while(char !== orig[i]) {
       i++;
       if(i >= orig.length) break outer;
     }
-    indices.add(i);
+
+    foundAt.add(i);
     i++;
   }
 
-  return indices;
+  return {foundAt, numOk: foundAt.size + numSkipped };
+}
+
+function shouldSkip(char) {
+  return /[\W_]/.test(char);
 }

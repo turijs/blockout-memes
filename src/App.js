@@ -1,42 +1,56 @@
 import React, { Component } from 'react';
+import AreaWrap from './AreaWrap';
 import Char from './Char';
 import findIndices from './find-indices';
+import autosize from 'autosize';
 
 class App extends Component {
   constructor(props) {
     super(props);
-    this.state = { original: '', sub: '' };
+    this.state = { orig: '', sub: '' };
+  }
+
+  componentDidMount() {
+    autosize( document.querySelectorAll('textarea') );
   }
 
   render() {
-    let {original, sub} = this.state;
-
-    let indices = findIndices(original, sub);
-
-    let combined = original.split('').map((char, i) => (
-      <Char key={i} cover={!indices.has(i)}>{char}</Char>
+    let {orig, sub} = this.state;
+    let {foundAt, numOk} = findIndices(orig, sub);
+    let combined = orig.split('').map((char, i) => (
+      <Char key={i} cover={!foundAt.has(i)}>{char}</Char>
     ));
+    let warn = numOk < sub.length ? [
+      sub.substring(0, numOk),
+      <span key="nf" className="not-found">{sub.substring(numOk)}</span>
+    ] : null;
 
 
     return (
-      <div className="App">
-        <textarea
-          placeholder="original meme text"
-          id="original"
-          value={original}
-          onChange={e => this.setState({original: e.target.value})}
-        />
+      <div id="App">
 
-        <br />
+        <AreaWrap>
+          <textarea
+            placeholder="original meme text"
+            id="orig"
+            value={orig}
+            onChange={e => this.setState({orig: e.target.value})}
+          />
+        </AreaWrap>
 
-        <textarea
-          placeholder="sub-text to find"
-          id="sub"
-          value={sub}
-          onChange={e => this.setState({sub: e.target.value})}
-        />
+        <AreaWrap id="sub-wrap">
+          <textarea
+            placeholder="sub-text to find"
+            id="sub"
+            value={sub}
+            onChange={e => this.setState({sub: e.target.value})}
+          />
+          <div id="highlighter" aria-hidden="true">
+            {warn}
+          </div>
+        </AreaWrap>
 
-        <div className="combined">
+        <div id="combined">
           {combined}
         </div>
 
