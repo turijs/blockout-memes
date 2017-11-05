@@ -28,6 +28,7 @@ class App extends Component {
 
     return (
       <div id="App">
+        <h1>Blockout Memes</h1>
 
         <AreaWrap>
           <textarea

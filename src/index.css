@@ -18,6 +18,13 @@ body {
   padding: 24px;
 }
 
+h1 {
+  color: rgba(115,65,0,1);
+  margin-bottom: 24px;
+  text-align: center;
+  font-weight: normal;
+}
+
 .area-wrap {
   position: relative;
   background: rgb(241,220,189);
