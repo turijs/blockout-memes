@@ -1,7 +1,7 @@
 {
   "name": "blockout-memes",
   "version": "0.1.0",
-  "homepage": "https://myusername.github.io/my-app",
+  "homepage": "https://turijs.github.io/blockout-memes",
   "dependencies": {
     "autosize": "^4.0.0",
     "gh-pages": "^1.0.0",
